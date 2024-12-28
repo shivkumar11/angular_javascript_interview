@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Overlay with 12 Buttons</title>
+  <style>
+    /* Basic styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    /* Styling for buttons */
+    button {
+      font-size: 16px;
+      padding: 2px 4px;
+      cursor: pointer;
+      margin: 10px;
+      box-sizing: border-box;
+    }
+
+    /* Fullscreen overlay styling */
+    .overlay {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+      color: white;
+      justify-content: flex-start; /* Align items to the top */
+      align-items: flex-start;
+      z-index: 1000; /* Ensures it appears above other content */
+      flex-wrap: wrap;
+      padding-top: 10px; /* Add padding to prevent content from sticking to the top */
+    }
+
+    .overlay-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Align buttons in center horizontally */
+      text-align: center;
+      width: 80%;
+      height: 100%; /* Ensure it occupies full screen height */
+      overflow-y: auto; /* Enable scrolling for large content */
+    }
+
+    .overlay-item {
+      display: none;
+      background-color: #444;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      border-radius: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    #closeOverlayBtn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+    }
+
+    /* Flexbox for better button layout */
+    .buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 12 Buttons wrapped in a container for better layout -->
+  <div class="buttons-container">
+    <button class="showOverlayBtn" data-target="1">Standalone</button>
+    <button class="showOverlayBtn" data-target="2">Signal</button>
+    <button class="showOverlayBtn" data-target="3">Interceptor</button>
+    <button class="showOverlayBtn" data-target="4">RxJS</button>
+    <button class="showOverlayBtn" data-target="5">NgRx</button>
+    <button class="showOverlayBtn" data-target="6">Hoisting</button>
+    <button class="showOverlayBtn" data-target="7">Resolver</button>
+    <button class="showOverlayBtn" data-target="8">Promise</button>
+    <button class="showOverlayBtn" data-target="9">Observable</button>
+    <button class="showOverlayBtn" data-target="10">DI/Subject/Observable/Observer</button>
+    <button class="showOverlayBtn" data-target="11">Directive</button>
+    <button class="showOverlayBtn" data-target="12">Bubbling/Capturing</button>
+  </div>
+
+  <!-- Fullscreen Overlay -->
+  <div id="overlay" class="overlay">
+    <button id="closeOverlayBtn">Close</button>
+    <div class="overlay-content">
+      <div class="overlay-item" id="section1">Angular, standalone components allow you to build Angular applications without the need for NgModules. Introduced in Angular 14 and improved in subsequent versions, standalone components simplify application structure and enable modular development.<br><br>What Are Standalone Components?<br><br>Self-contained units: Standalone components can declare their dependencies directly and don’t require being part of an NgModule.</div>
+      <div class="overlay-item" id="section2">A signal represents a reactive value that automatically updates any dependent computations when its value changes.</div>
+      <div class="overlay-item" id="section3">An interceptor in Angular is a special type of service that allows you to intercept and modify HTTP requests or responses globally.</div>
+      <div class="overlay-item" id="section4">RxJS is a library for reactive programming using Observables. It allows you to work with asynchronous data streams, making it ideal for handling events, HTTP requests, and complex data transformations in Angular applications.</div>
+      <div class="overlay-item" id="section5">NgRx is a state management library for Angular based on Redux principles. It uses RxJS under the hood for managing side effects and streams.</div>
+      <div class="overlay-item" id="section6">Hoisting in JavaScript is a behavior where variable and function declarations are moved to the top of their containing scope during the compilation phase.</div>
+      <div class="overlay-item" id="section7">A Resolver in Angular is a service that fetches or prepares data before navigating to a route. It ensures the required data is available for the component to use when it loads.</div>
+      <div class="overlay-item" id="section8">A Promise represents a single future value that resolves or rejects once. It’s primarily used for handling one-time asynchronous tasks like fetching data from an API.</div>
+      <div class="overlay-item" id="section9">An Observable is a lazy, multi-value stream that allows you to work with data over time. Observables are part of the RxJS library and are used extensively in Angular.</div>
+      <div class="overlay-item" id="section10">Dependency Injection (DI) is a design pattern and a core feature of Angular. It allows components, services, or other classes to request dependencies from an external source.</div>
+      <div class="overlay-item" id="section11">Directives are classes that add behavior to elements in your Angular applications. They are one of the core building blocks of Angular.</div>
+      <div class="overlay-item" id="section12">Event Bubbling is a concept in event handling in which an event starts from the target element and propagates upward through its ancestors in the DOM hierarchy.</div>
+    </div>
+  </div>
+
+  <script>
+    // Get elements
+    const showOverlayBtns = document.querySelectorAll('.showOverlayBtn');
+    const overlay = document.getElementById('overlay');
+    const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+    const overlayItems = document.querySelectorAll('.overlay-item');
+
+    // Show overlay and target the corresponding section on button click
+    showOverlayBtns.forEach(button => {
+      button.addEventListener('click', function() {
+        const targetSection = this.getAttribute('data-target'); // Get target section from data-target
+        overlay.style.display = 'flex'; // Display the overlay
+
+        // Hide all sections first
+        overlayItems.forEach(item => {
+          item.style.display = 'none';
+        });
+
+        // Show the clicked section
+        const sectionToShow = document.getElementById(`section${targetSection}`);
+        if (sectionToShow) {
+          sectionToShow.style.display = 'block'; // Show the specific section
+        }
+      });
+    });
+
+    // Close overlay on button click
+    closeOverlayBtn.addEventListener('click', function() {
+      overlay.style.display = 'none'; // Hide the overlay
+    });
+
+    // Close the overlay if clicked outside the content area
+    overlay.addEventListener('click', function(event) {
+      if (event.target === overlay) {
+        overlay.style.display = 'none'; // Hide the overlay if clicked outside
+      }
+    });
+  </script>
+
+</body>
+</html>
